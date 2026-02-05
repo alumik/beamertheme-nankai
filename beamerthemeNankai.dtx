@@ -105,6 +105,27 @@
 %
 % \subsection{一些基础定义}
 %
+% \subsubsection{模板参数}
+%
+% \begin{variable}{\l_@@_hidesidebar_bool}
+%
+% 是否禁用侧边栏。
+%
+%    \begin{macrocode}
+\bool_new:N  \l_@@_hidesidebar_bool
+\bool_set_false:N \l_@@_hidesidebar_bool
+%    \end{macrocode}
+% \end{variable}
+%
+% 读取并处理用户输入的模板参数。
+%
+%    \begin{macrocode}
+\DeclareOptionBeamer { hidesidebar } {
+    \bool_set_true:N \l_@@_hidesidebar_bool
+}
+\ProcessOptionsBeamer
+%    \end{macrocode}
+%
 % \subsubsection{引入必要依赖}
 %
 %    \begin{macrocode}
@@ -126,10 +147,10 @@
 %    \end{macrocode}
 % \end{variable}
 %
-% 将楷书字体应用到标题 \texttt{frametitle}。
+% 将楷书字体应用到页面标题。
 %
 %    \begin{macrocode}
-\setbeamerfont { frametitle }{ family = \kaishu }
+\setbeamerfont { frametitle } { family = \kaishu }
 %    \end{macrocode}
 %
 % \subsubsection{尺寸相关配置}
@@ -146,7 +167,9 @@
 %
 %    \begin{macrocode}
 \dim_new:N  \l_@@_sidebarwidth_dim
-\dim_set:Nn \l_@@_sidebarwidth_dim { 2.5\baselineskip }
+\bool_if:NTF \l_@@_hidesidebar_bool
+    { \dim_set:Nn \l_@@_sidebarwidth_dim { 0pt              } }
+    { \dim_set:Nn \l_@@_sidebarwidth_dim { 2.5\baselineskip } }
 %    \end{macrocode}
 % \end{variable}
 %
@@ -176,13 +199,13 @@
 \reset@font
 %    \end{macrocode}
 %
-% 设置文本边距。
+% 设置正文文本边距。
 %
 %    \begin{macrocode}
 \setbeamersize{ text~margin~left = 0.5cm, text~margin~right = 0.5cm }
 %    \end{macrocode}
 %
-% \subsubsection{南开大学图标}
+% \subsubsection{南开大学标志}
 %
 % \makeatletter
 % \let\@oldxobeysp\@xobeysp
@@ -190,6 +213,9 @@
 % \makeatother
 %
 % \begin{macro}{\@@_nankai_logo:}
+%
+% 打印南开大学标志。
+%
 %    \begin{macrocode}
 \cs_new:Nn \@@_nankai_logo: {
     \begin { tikzpicture } [
@@ -270,16 +296,6 @@
 %
 %</outer>
 %
-%<*color>
-%
-% \subsubsection{颜色相关配置（通用模式）}
-%
-%    \begin{macrocode}
-\definecolor { NankaiMain   } { HTML } { 711a5f }
-%    \end{macrocode}
-%
-%</color>
-%
 %<*shared>
 %
 % 打开展示模式。
@@ -292,16 +308,17 @@
 %
 %<*color>
 %
-% \subsubsection{颜色相关配置（展示模式）}
+% \subsubsection{颜色相关配置}
 %
 %    \begin{macrocode}
+\definecolor { NankaiMain } { HTML } { 711a5f }
 \usecolortheme { whale  }
 \usecolortheme { orchid }
-\setbeamercolor* { structure   } { fg     = NankaiMain      }
-\setbeamercolor* { frametitle  } { parent = palette~primary }
-\setbeamercolor* { sidebar     } { use = structure, bg = structure.fg!10!white }
-\setbeamercolor  { block~title } { bg     = structure.fg    }
-\setbeamercolor* { palette~sidebar~primary } { parent = structure }
+\setbeamercolor* { structure               } { fg     = NankaiMain      }
+\setbeamercolor* { frametitle              } { parent = palette~primary }
+\setbeamercolor  { block~title             } { bg     = structure.fg    }
+\setbeamercolor* { palette~sidebar~primary } { parent = structure       }
+\setbeamercolor* { sidebar } { use = structure, bg = structure.fg!10!white }
 \setbeamercolor*
     { page~number~in~head/foot }
     { use = frametitle, fg = frametitle.fg }
@@ -423,10 +440,18 @@
 %
 % \subsection{侧边栏样式}
 %
+% \subsubsection{基础设置与工具函数}
+%
 % 在侧边栏中仅显示当前章节的子章节。
 %
 %    \begin{macrocode}
 \beamer@nav@subsectionstyle { show/show/hide }
+%    \end{macrocode}
+%
+% 设置侧边栏宽度。
+%
+%    \begin{macrocode}
+\setbeamersize { sidebar~width~left = \dim_use:N \l_@@_sidebarwidth_dim }
 %    \end{macrocode}
 %
 % \begin{macro}{\@@_sidebarformat:nnn}
@@ -451,7 +476,9 @@
 %    \end{macrocode}
 % \end{macro}
 %
-% 侧边栏中的章节文字样式。
+% \subsubsection{侧边栏中导航项样式}
+%
+% 设置章节导航项样式。
 %
 %    \begin{macrocode}
 \defbeamertemplate* { section~in~sidebar } { @@ } {
@@ -474,7 +501,7 @@
 }
 %    \end{macrocode}
 %
-% 侧边栏中的小节文字样式。
+% 设置小节导航项样式。
 %
 %    \begin{macrocode}
 \defbeamertemplate* { subsection~in~sidebar } { @@ } {
@@ -495,7 +522,7 @@
 }
 %    \end{macrocode}
 %
-% 侧边栏中的子小节文字样式。
+% 设置子小节导航项样式。
 %
 %    \begin{macrocode}
 \defbeamertemplate* { subsubsection~in~sidebar } { @@ } {
@@ -516,19 +543,15 @@
 }
 %    \end{macrocode}
 %
-% 设置侧边栏宽度。
-%
-%    \begin{macrocode}
-\setbeamersize { sidebar~width~left = \dim_use:N \l_@@_sidebarwidth_dim }
-%    \end{macrocode}
-%
 % 定义侧边栏模板。
 %
 %    \begin{macrocode}
-\defbeamertemplate* { sidebar~left } { @@ } {
-    \vspace* { \dim_eval:n { \l_@@_headheight_dim + \baselineskip } }
-    \insertverticalnavigation { \dim_use:N \l_@@_sidebarwidth_dim }
-    \vfill
+\bool_if:NF \l_@@_hidesidebar_bool {
+    \defbeamertemplate* { sidebar~left } { @@ } {
+        \vspace* { \dim_eval:n { \l_@@_headheight_dim + \baselineskip } }
+        \insertverticalnavigation { \dim_use:N \l_@@_sidebarwidth_dim }
+        \vfill
+    }
 }
 %    \end{macrocode}
 %
