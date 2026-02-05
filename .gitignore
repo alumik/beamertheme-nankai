@@ -290,7 +290,7 @@ TSWLatexianTemp*
 
 # DocTex
 *.hd
-*.cls
+*.sty
 
 # l3build
 build/
