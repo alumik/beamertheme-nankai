@@ -35,16 +35,16 @@
 %<*driver>
 \documentclass{ctxdoc}
 \usepackage[most]{tcolorbox}
-\DefineVerbatimEnvironment{nkthesisexam}{Verbatim}{
+\DefineVerbatimEnvironment{ctxexam}{Verbatim}{
     gobble=6,
     frame=single,
     framesep=10pt,
-    label=\rule{0pt}{12pt}\textnormal{\textbf{例 \arabic{nkthesisexam}}},
+    label=\rule{0pt}{12pt}\textnormal{\textbf{例 \arabic{ctxexam}}},
     listparameters=
         \setlength{\topsep}{\bigskipamount}
-        \refstepcounter{nkthesisexam}
+        \refstepcounter{ctxexam}
 }
-\newcounter{nkthesisexam}
+\newcounter{ctxexam}
 \newtcolorbox{warningbox}{
     colback=yellow!15,
     colframe=red!60!black,
@@ -57,6 +57,7 @@
     bottom=6pt,
     boxrule=1pt
 }
+\definecolor{NankaiMain}{HTML}{711a5f}
 \EnableCrossrefs
 \CodelineIndex
 \RecordChanges
@@ -71,11 +72,22 @@
 %
 % \title{\textbf{beamertheme-nankai：南开大学 Beamer 主题}}
 % \author{钟震宇 \\ \texttt{zyzhong@mail.nankai.edu.cn}}
-% \date{2026/02/03\qquad v0.0.1}
+% \date{
+%     2026/02/05\\
+%     主题包版本 v1.0.0\\
+%     \textcolor{gray}{（颜色主题版本 v1.0.0\quad 外观主题版本 v1.0.0）}
+% }
 % \maketitle
 %
 % \begin{abstract}
-%     \cls{beamertheme-nankai} 是一款为南开大学设计的 \LaTeX{} Beamer 主题。
+%     \cls{beamertheme-nankai} 是一款专为南开大学设计的 \LaTeX{} Beamer 主题，旨
+%     在为校内师生提供符合 \LaTeX 规范且视觉统一的幻灯片模板。该主题以南开大学标志性
+%     的“青莲紫”作为主色调，并在页眉处集成了基于矢量绘图技术的校标元素，确
+%     保在各种分辨率下均能保持清晰专业的视觉效果。在功能设计上，本主题采用了左右
+%     结构的导航布局，通过侧边栏实时呈现章节进度，同时提供了
+%     灵活的配置选项（如隐藏侧边栏模式），能够完美适配学术报告、论文答辩及日常教
+%     学等多种演示场景。此外，主题对标题栏和底栏进行了精细的渐变美化处理，在保证
+%     中文字体兼容性的基础上，提升了演示文稿的层次感与现代感。
 % \end{abstract}
 %
 % \tableofcontents
@@ -86,7 +98,95 @@
 %
 % \section{介绍}
 %
-% \cls{beamertheme-nankai} 是一款为南开大学设计的 \LaTeX{} Beamer 主题，旨在为南开大学的师生提供一个统一且专业的幻灯片模板。
+% \cls{beamertheme-nankai} 是一款专为南开大学师生设计的 \LaTeX{} Beamer 主题。
+% 本主题旨在提供一个符合南开大学视觉风格的、专业且美观的幻灯片模版，适用于学术报告、学位论文答辩以及日常教学演示。
+%
+% 本主题的主要特点包括：
+% \begin{itemize}
+%     \item 采用南开校色（青莲紫）作为主色调。
+%     \item 内置基于 TikZ 矢量绘制的南开大学校标，支持高清缩放。
+%     \item 提供可选的侧边栏导航模式，便于听众实时掌握报告进度。
+%     \item 页面顶部与底部采用渐变色块设计，增加视觉层次感。
+% \end{itemize}
+%
+% \section{使用方法}
+%
+% \subsection{加载主题}
+%
+% 在 LaTeX 文件的导言区使用 \texttt{\textbackslash usetheme} 命令即可加载：
+% \begin{ctxexam}
+%     \documentclass{beamer}
+%     \usetheme{Nankai}
+% \end{ctxexam}
+%
+% \subsection{主题选项}
+%
+% \begin{function}{hidesidebar}
+%     默认情况下，本主题会在左侧显示导航侧边栏。
+%     当该选项存在时，侧边栏将被隐藏，正文区域将向左扩展以覆盖原侧边栏空间。
+%     该选项适用于内容较多、需要更大展示面积的幻灯片。
+%
+%     \begin{ctxexam}
+%     \usetheme[hidesidebar]{Nankai}
+%     \end{ctxexam}
+% \end{function}
+%
+% \section{样式定制}
+%
+% \subsection{字体设置}
+%
+% 本主题默认将 \texttt{\textbackslash kaishu}（楷体）应用到页面标题。
+% 建议配合 \cls{ctex} 宏包或 \cls{ctexbeamer} 文档类使用，以获得最佳的中文字体显示效果。
+%
+% \subsection{颜色主题}
+%
+% 本主题定义了 \texttt{NankaiMain} 颜色：
+% \begin{itemize}
+%     \item \textbf{NankaiMain}: \fcolorbox{black}{NankaiMain}{\phantom{XX}} \texttt{\#711a5f}，即南开青莲紫。
+% \end{itemize}
+%
+% \section{示例代码}
+%
+% 以下是一个标准的南开大学 Beamer 演示文稿工作示例：
+%
+% \begin{ctxexam}
+%     \documentclass{ctexbeamer}
+%     \usetheme{Nankai}
+%
+%     \title{南开大学 Beamer 主题展示}
+%     \author{作者姓名}
+%     \institute{学院}
+%     \date{\today}
+%
+%     \begin{document}
+%
+%     \begin{frame}
+%         \titlepage
+%     \end{frame}
+%
+%     \begin{frame}{目录}
+%         \tableofcontents
+%     \end{frame}
+%
+%     \section{第一部分}
+%     \subsection{小节标题}
+%     \begin{frame}{页面标题}{这里是副标题}
+%         \begin{itemize}
+%             \item 南开大学公能校训：允公允能，日新月异。
+%             \item 这是一个列表项。
+%         \end{itemize}
+%         \begin{block}{定理}
+%             这是一个带背景色的区块。
+%         \end{block}
+%     \end{frame}
+%
+%     \end{document}
+% \end{ctxexam}
+%
+% \begin{warningbox}
+%     由于侧边栏和标题栏使用了 TikZ 的 \texttt{remember picture, overlay} 选项进行定位，
+%     在修改结构或初次编译后，可能需要运行 \textbf{两到三次} LaTeX 编译以确保元素位置对齐准确。
+% \end{warningbox}
 %
 % \end{documentation}
 %
