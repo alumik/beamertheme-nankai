@@ -126,6 +126,23 @@
 \ProcessOptionsBeamer
 %    \end{macrocode}
 %
+%</outer>
+%
+%<*theme>
+%
+% 在主题主文件中传递参数。
+%
+%    \begin{macrocode}
+\DeclareOptionBeamer { hidesidebar } {
+    \PassOptionsToPackage { hidesidebar } { beamerouterthemeNankai }
+}
+\ProcessOptionsBeamer
+%    \end{macrocode}
+%
+%</theme>
+%
+%<*outer>
+%
 % \subsubsection{引入必要依赖}
 %
 %    \begin{macrocode}
