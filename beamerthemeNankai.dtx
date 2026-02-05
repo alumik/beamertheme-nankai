@@ -20,16 +20,12 @@
 %<shared>\RequirePackage{expl3}
 %<shared>\ProvidesExplPackage
 %<theme>    {beamerthemeNankai}
-%<theme>    {2026/02/05}
-%<theme>    {v1.0.0}
-%<theme>    {Beamer theme of Nankai University}
 %<outer>    {beamerouterthemeNankai}
-%<outer>    {2026/02/05}
-%<outer>    {v1.0.0}
-%<outer>    {Beamer outer theme of Nankai University}
 %<color>    {beamercolorthemeNankai}
-%<color>    {2026/02/05}
-%<color>    {v1.0.0}
+%<shared>    {2026/02/05}
+%<shared>    {v1.0.1}
+%<theme>    {Beamer theme of Nankai University}
+%<outer>    {Beamer outer theme of Nankai University}
 %<color>    {Beamer color theme of Nankai University}
 %
 %<*driver>
@@ -71,7 +67,7 @@
 %     \advance, \baselineskip, \beamertemplatenavigationsymbolsempty, \begin,
 %     \bool_if:NF, \bool_if:NTF, \bool_new:N, \bool_set_false:N, \bool_set_true:N,
 %     \cs_new:Nn, \cs_new_protected:Nn, \DeclareOptionBeamer,
-%     \defbeamertemplate, \definecolor, \dim_eval:n, \dim_new:N, \dim_set:Nn,
+%     \defbeamertemplate, \definecolor, \dim_eval:n, \dim_new:N,
 %     \dim_use:N, \end, \ExplSyntaxOff, \ExplSyntaxOn, \hbox_to_wd:nn, \hfill,
 %     \insertframenumber, \insertframesubtitle, \insertsectionhead,
 %     \insertsubsectionhead, \insertsubsubsectionhead, \inserttotalframenumber,
@@ -83,16 +79,13 @@
 %     \beamer@rightmargin, \reset@font, \textwidth, \tl_if_empty:NF, \tl_new:N,
 %     \tl_set:NV, \tl_use:N, \usebeamercolor, \usebeamerfont, \usecolortheme,
 %     \useinnertheme, \useoutertheme, \usetikzlibrary, \vbox:n,
-%     \vbox_to_ht:nn, \vfill, \vspace,
+%     \vbox_to_ht:nn, \vfill, \vspace, \dim_const:Nn, \dim_set_eq:NN,
+%     \tl_if_empty:NTF,
 % }
 %
 % \title{\textbf{beamertheme-nankai：南开大学 Beamer 主题}}
 % \author{钟震宇 \\ \texttt{zyzhong@mail.nankai.edu.cn}}
-% \date{
-%     2026/02/05\\
-%     主题包版本 v1.0.0\\
-%     \textcolor{gray}{（颜色主题版本 v1.0.0\quad 外观主题版本 v1.0.0）}
-% }
+% \date{2026/02/05\quad v1.0.1}
 % \maketitle
 %
 % \begin{abstract}
@@ -294,15 +287,16 @@
 \usebeamerfont { frametitle }
 %    \end{macrocode}
 %
-% \begin{variable}{\l_@@_sidebarwidth_dim}
+% \changes{v1.0}{2026/02/05}{根据是否包含副标题动态调整标题栏高度。}
+%
+% \begin{variable}{\c_@@_sidebarwidth_dim}
 %
 % 侧边栏宽度。
 %
 %    \begin{macrocode}
-\dim_new:N  \l_@@_sidebarwidth_dim
 \bool_if:NTF \l_@@_hidesidebar_bool
-    { \dim_set:Nn \l_@@_sidebarwidth_dim { 0pt              } }
-    { \dim_set:Nn \l_@@_sidebarwidth_dim { 2.5\baselineskip } }
+    { \dim_const:Nn \c_@@_sidebarwidth_dim { 0pt              } }
+    { \dim_const:Nn \c_@@_sidebarwidth_dim { 2.5\baselineskip } }
 %    \end{macrocode}
 % \end{variable}
 %
@@ -312,17 +306,64 @@
 %
 %    \begin{macrocode}
 \dim_new:N  \l_@@_headheight_dim
-\dim_set:Nn \l_@@_headheight_dim { 2.5\baselineskip }
 %    \end{macrocode}
 % \end{variable}
 %
-% \begin{variable}{\l_@@_footheight_dim}
+% \begin{variable}{\c_@@_headheight_full_dim}
+%
+% 有副标题时标题栏高度。
+%
+%    \begin{macrocode}
+\dim_const:Nn \c_@@_headheight_full_dim { 2.5\baselineskip }
+%    \end{macrocode}
+% \end{variable}
+%
+% \begin{variable}{\c_@@_headheight_nosubtitle_dim}
+%
+% 无副标题时标题栏高度。
+%
+%    \begin{macrocode}
+\dim_const:Nn \c_@@_headheight_nosubtitle_dim { 1.89\baselineskip }
+%    \end{macrocode}
+% \end{variable}
+%
+% \changes{v1.0}{2026/02/05}{为未来预留根据标题栏高度动态调整标志到顶部边距的变量。该功能目前未启用。}
+%
+% \begin{variable}{\l_@@_logomargin_dim}
+%
+% 标志到顶部边距。
+%
+%    \begin{macrocode}
+\dim_new:N  \l_@@_logomargin_dim
+%    \end{macrocode}
+% \end{variable}
+%
+% \begin{variable}{\c_@@_logomargin_full_dim}
+%
+% 有副标题时标志到顶部边距。
+%
+%    \begin{macrocode}
+\dim_const:Nn \c_@@_logomargin_full_dim { 0.25cm }
+%    \end{macrocode}
+% \end{variable}
+%
+% \begin{variable}{\c_@@_logomargin_nosubtitle_dim}
+%
+% 无副标题时标志到顶部边距。
+%
+%    \begin{macrocode}
+\dim_const:Nn \c_@@_logomargin_nosubtitle_dim { 0.08cm }
+%    \end{macrocode}
+% \end{variable}
+%
+% \changes{v1.0}{2026/02/05}{将一些变量更改为常量。}
+%
+% \begin{variable}{\c_@@_footheight_dim}
 %
 % 底栏高度。
 %
 %    \begin{macrocode}
-\dim_new:N  \l_@@_footheight_dim
-\dim_set:Nn \l_@@_footheight_dim { 0.3cm }
+\dim_const:Nn \c_@@_footheight_dim { 0.3cm }
 %    \end{macrocode}
 % \end{variable}
 %
@@ -519,9 +560,40 @@
 %
 % \subsection{标题栏样式}
 %
+% \changes{v1.0}{2026/02/05}{页面标题与正文左对齐。}
+% \changes{v1.0}{2026/02/05}{为未来预留根据标题栏高度动态调整标志到顶部边距的变量。该功能目前未启用。}
+% \changes{v1.0}{2026/02/05}{根据是否包含副标题动态调整标题栏高度。}
+%
 %    \begin{macrocode}
 \defbeamertemplate* { frametitle } { @@ } {
     \nointerlineskip
+    \tl_if_empty:NTF \insertframesubtitle
+    {
+        \dim_set_eq:NN
+            { \l_@@_headheight_dim            }
+            { \c_@@_headheight_nosubtitle_dim }
+        \dim_set_eq:NN
+            { \l_@@_logomargin_dim            }
+            { \c_@@_logomargin_nosubtitle_dim }
+    }
+    {
+        \dim_set_eq:NN
+            { \l_@@_headheight_dim            }
+            { \c_@@_headheight_full_dim       }
+%    \end{macrocode}
+%
+% 在这里，虽然标题栏高度已经设置为包含副标题的高度，但为了保持与无副标题时标志位
+% 置的一致性，标志的上边距仍然使用无副标题时的设置。本主题已经预留了垂直居中显示
+% 标志的尺寸变量 \cs{c_@@_logomargin_nosubtitle_dim}，后续可能启用该功能。
+%
+%    \begin{macrocode}
+        \dim_set_eq:NN
+            { \l_@@_logomargin_dim            }
+            { \c_@@_logomargin_nosubtitle_dim }
+%    \end{macrocode}
+%
+%    \begin{macrocode}
+    }
     { \usebeamercolor { frametitle } }
     \begin { tikzpicture } [ remember~picture, overlay ]
         \shadedraw [
@@ -538,7 +610,7 @@
         \node [
             anchor = north~east,
             xshift = -0.35cm,
-            yshift = -0.25cm,
+            yshift = -\dim_use:N \l_@@_logomargin_dim,
         ] at ( current~page.north~east ) {
             \scalebox { 0.023 }{ \@@_nankai_logo: }
         };
@@ -546,7 +618,7 @@
     \vbox_to_ht:nn { \l_@@_headheight_dim } {
         \vfill
         \leftskip = -\beamer@leftmargin
-        \advance \leftskip by 0.3cm
+        \advance \leftskip by 0.5cm
         \rightskip = -\beamer@rightmargin
         \advance \rightskip by 3cm plus 1fil
         {
@@ -581,11 +653,15 @@
 \beamer@nav@subsectionstyle { show/show/hide }
 %    \end{macrocode}
 %
+% \changes{v1.0}{2026/02/05}{将一些变量更改为常量。}
+%
 % 设置侧边栏宽度。
 %
 %    \begin{macrocode}
-\setbeamersize { sidebar~width~left = \dim_use:N \l_@@_sidebarwidth_dim }
+\setbeamersize { sidebar~width~left = \dim_use:N \c_@@_sidebarwidth_dim }
 %    \end{macrocode}
+%
+% \changes{v1.0}{2026/02/05}{将一些变量更改为常量。}
 %
 % \begin{macro}{\@@_sidebarformat:nnn}
 %
@@ -594,7 +670,7 @@
 %    \begin{macrocode}
 \cs_new_protected:Nn \@@_sidebarformat:nnn {
     \begin { beamercolorbox } [
-        wd        = \dim_use:N \l_@@_sidebarwidth_dim,
+        wd        = \dim_use:N \c_@@_sidebarwidth_dim,
         leftskip  = {#1},
         rightskip = 1ex plus 1fil,
         vmode,
@@ -676,19 +752,23 @@
 }
 %    \end{macrocode}
 %
+% \changes{v1.0}{2026/02/05}{将一些变量更改为常量。}
+%
 % 定义侧边栏模板。
 %
 %    \begin{macrocode}
 \bool_if:NF \l_@@_hidesidebar_bool {
     \defbeamertemplate* { sidebar~left } { @@ } {
-        \vspace* { \dim_eval:n { \l_@@_headheight_dim + \baselineskip } }
-        \insertverticalnavigation { \dim_use:N \l_@@_sidebarwidth_dim }
+        \vspace* { \dim_eval:n { \c_@@_headheight_full_dim + \baselineskip } }
+        \insertverticalnavigation { \dim_use:N \c_@@_sidebarwidth_dim }
         \vfill
     }
 }
 %    \end{macrocode}
 %
 % \subsection{底栏样式}
+%
+% \changes{v1.0}{2026/02/05}{将一些变量更改为常量。}
 %
 %    \begin{macrocode}
 \defbeamertemplate* { footline } { @@ } {
@@ -702,11 +782,11 @@
         ]
             ( current~page.south~west ) rectangle
             (
-                [ yshift = \dim_use:N \l_@@_footheight_dim ]
+                [ yshift = \dim_use:N \c_@@_footheight_dim ]
                 current~page.south~east
             );
     \end { tikzpicture }
-    \vbox_to_ht:nn { \dim_use:N \l_@@_footheight_dim } {
+    \vbox_to_ht:nn { \dim_use:N \c_@@_footheight_dim } {
         \vfill
         \hbox_to_wd:nn { \textwidth } {
             \hfill

@@ -1,6 +1,6 @@
 # beamertheme-nankai：南开大学 Beamer 主题
 
-![version 1.0.0](https://img.shields.io/badge/version-1.0.0-blue)
+![version 1.0.1](https://img.shields.io/badge/version-1.0.1-blue)
 ![license-LPPL-1.3c](https://img.shields.io/github/license/alumik/nkthesis)
 
 > [!TIP]
