@@ -347,12 +347,14 @@
 %    \end{macrocode}
 % \end{variable}
 %
+% \changes{v1.0}{2026/02/06}{取消标志内边距，保持不同页面上的标志位置一致。}
+%
 % \begin{variable}{\c_@@_logomargin_nosubtitle_dim}
 %
 % 无副标题时标志到顶部边距。
 %
 %    \begin{macrocode}
-\dim_const:Nn \c_@@_logomargin_nosubtitle_dim { 0.08cm }
+\dim_const:Nn \c_@@_logomargin_nosubtitle_dim { 0.25cm }
 %    \end{macrocode}
 % \end{variable}
 %
@@ -560,7 +562,6 @@
 %
 % \subsection{标题栏样式}
 %
-% \changes{v1.0}{2026/02/05}{页面标题与正文左对齐。}
 % \changes{v1.0}{2026/02/05}{为未来预留根据标题栏高度动态调整标志到顶部边距的变量。该功能目前未启用。}
 % \changes{v1.0}{2026/02/05}{根据是否包含副标题动态调整标题栏高度。}
 %
@@ -592,6 +593,9 @@
             { \c_@@_logomargin_nosubtitle_dim }
 %    \end{macrocode}
 %
+% \changes{v1.0}{2026/02/05}{页面标题与正文左对齐。}
+% \changes{v1.0}{2026/02/06}{取消标志内边距，保持不同页面上的标志位置一致。}
+%
 %    \begin{macrocode}
     }
     { \usebeamercolor { frametitle } }
@@ -608,9 +612,10 @@
                 current~page.north~east
             );
         \node [
-            anchor = north~east,
-            xshift = -0.35cm,
-            yshift = -\dim_use:N \l_@@_logomargin_dim,
+            anchor    = north~east,
+            xshift    = -0.5cm,
+            yshift    = -\dim_use:N \l_@@_logomargin_dim,
+            inner~sep = 0pt,
         ] at ( current~page.north~east ) {
             \scalebox { 0.023 }{ \@@_nankai_logo: }
         };
