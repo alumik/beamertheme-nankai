@@ -815,6 +815,108 @@
 \beamertemplatenavigationsymbolsempty
 %    \end{macrocode}
 %
+% \subsection{特殊页面}
+%
+% \changes{v1.0}{2026/02/06}{添加自定义章节标题页。}
+%
+% \subsubsection{章节标题页}
+%
+%    \begin{macrocode}
+\defbeamertemplate* { section~page } { @@ } {
+    \nointerlineskip
+    \begin { tikzpicture } [ remember~picture, overlay ]
+%    \end{macrocode}
+%
+% 左边的大块梯形装饰。
+%
+%    \begin{macrocode}
+        \shadedraw [
+            draw        = frametitle.fg,
+            line~width  = 6pt,
+            left~color  = frametitle.fg!20!frametitle.bg,
+            right~color = frametitle.bg,
+            blur~shadow = {
+                shadow~xshift      = -9bp,
+                shadow~yshift      = -9bp,
+                shadow~blur~radius = 20bp,
+                shadow~opacity     = 15,
+                shadow~blur~steps  = 10,
+            },
+        ]
+            ( [ xshift = -3pt, yshift = 3pt ] current~page.north~west ) --
+            ( [ xshift = 0.35\paperwidth, yshift = 3pt ] current~page.north~west ) [ rounded~corners = 15pt ] --
+            ( [ xshift = 0.35\paperwidth, yshift = 20pt ] current~page.south~west ) [ sharp~corners ] --
+            ( [ xshift = -3pt, yshift = -3pt ] current~page.south~west ) --
+            cycle;
+% 章节编号。
+%
+%    \begin{macrocode}
+        \node [
+            circle,
+            text         = frametitle.fg,
+            draw         = frametitle.fg,
+            line~width   = 3pt,
+            fill         = frametitle.bg,
+            minimum~size = 1.7cm,
+            blur~shadow  = {
+                shadow~xshift      = 3bp,
+                shadow~yshift      = 0bp,
+                shadow~blur~radius = 4bp,
+                shadow~opacity     = 20,
+                shadow~blur~steps  = 10,
+            },
+        ] ( sectionnum )
+            at ( [ xshift = 0.35\paperwidth, yshift = 0cm ] current~page.west) {
+                \fontsize { 40 } { 40 }
+                \selectfont
+                \bfseries
+                \insertsectionnumber
+            };
+%    \end{macrocode}
+%
+% 章节名称。
+%
+%    \begin{macrocode}
+        \node [ anchor = west, text = titlepagefgcolor ]
+            at ( [ xshift = 0.6cm ] sectionnum.east ) {
+                \begin { minipage } { 0.5\paperwidth }
+                    { \fontsize { 28 } { 34 } \selectfont \bfseries \insertsection \par }
+                    \vspace* { 0.3cm }
+                    \tikz \draw [ titlepagefgcolor, line~width=1.5pt] ( 0, 0 ) -- ( 1.2, 0 );
+                \end { minipage }
+            };
+%    \end{macrocode}
+%
+% 右上与左下的点状装饰。
+%
+%    \begin{macrocode}
+        \foreach \x in { 0, 1, 2, 3, 4 } \foreach \y in { 0, 1, 2, 3, 4 } {
+            \pgfmathsetmacro \opa { 1 - \x / 5 }
+            \fill [ fill = frametitle.bg!60!frametitle.fg, opacity = \opa ]
+            ( [ xshift = 5pt + \x * 5pt, yshift = -5pt - \y * 5pt ] current~page.north~west ) circle ( 1.5pt );
+        }
+        \foreach \x in { 0, 1, 2, 3, 4 } \foreach \y in { 0, 1, 2, 3, 4 } {
+            \pgfmathsetmacro \opa { 1 - \x / 5 }
+            \fill [ fill = titlepagebgcolor!60!titlepagefgcolor, opacity = \opa ]
+                ( [ xshift = -5pt - \x * 5pt, yshift = 5pt + \y * 5pt ] current~page.south~east ) circle ( 1.5pt );
+        }
+%    \end{macrocode}
+%
+% 右上角的南开大学校徽。
+%
+%    \begin{macrocode}
+        \node [
+            anchor    = north~east,
+            xshift    = -0.5cm,
+            yshift    = -\dim_use:N \c_@@_logomargin_nosubtitle_dim,
+            inner~sep = 0pt,
+        ] at ( current~page.north~east ) {
+            \scalebox { 0.023 }{ \@@_nankai_logo:n { titlepagefgcolor } }
+        };
+    \end{tikzpicture}
+}
+%    \end{macrocode}
+%
 %</outer>
 %
 %<*shared>
