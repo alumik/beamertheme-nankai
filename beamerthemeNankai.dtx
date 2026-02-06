@@ -536,6 +536,132 @@
 %
 %</color>
 %
+% \changes{v1.0}{2026/02/06}{支持根据亮度差值选择对比度更高的颜色。}
+%
+%<*outer>
+%
+% 根据对比度选择颜色。
+%
+% \begin{variable}{\l_@@_color_model_tl}
+%
+% 存储颜色模型的临时变量。
+%
+%    \begin{macrocode}
+\tl_new:N \l_@@_color_model_tl
+%    \end{macrocode}
+%\end{variable}
+%
+% \begin{variable}{\l_@@_color_values_tl}
+%
+% 存储颜色值的临时变量。
+%
+%    \begin{macrocode}
+\tl_new:N \l_@@_color_values_tl
+%    \end{macrocode}
+% \end{variable}
+%
+% \begin{variable}{\l_@@_color_rgb_tl}
+%
+% 存储 RGB 颜色值的临时变量。
+%
+%    \begin{macrocode}
+\tl_new:N \l_@@_color_rgb_tl
+%    \end{macrocode}
+% \end{variable}
+%
+% \begin{variable}{\l_@@_color_lum_fp}
+%
+% 存储颜色亮度的临时变量。
+%
+%    \begin{macrocode}
+\fp_new:N \l_@@_color_lum_fp
+%    \end{macrocode}
+% \end{variable}
+%
+% \begin{variable}{\l_@@_color_diff_ab_fp}
+%
+% 存储颜色 A 和颜色 B 亮度差值的临时变量。
+%
+%    \begin{macrocode}
+\fp_new:N \l_@@_color_diff_ab_fp
+%    \end{macrocode}
+% \end{variable}
+%
+% \begin{variable}{\l_@@_color_diff_ac_fp}
+%
+% 存储颜色 A 和颜色 C 亮度差值的临时变量。
+%
+%    \begin{macrocode}
+\fp_new:N \l_@@_color_diff_ac_fp
+%    \end{macrocode}
+% \end{variable}
+%
+% \begin{macro}{\@@_color_get_luminance:nN}
+%
+% 计算颜色的亮度值。
+%
+%    \begin{macrocode}
+\cs_new_protected:Nn \@@_color_get_luminance:nN {
+    \extractcolorspecs {#1} { \l_@@_color_model_tl } { \l_@@_color_values_tl }
+    \convertcolorspec
+        { \l_@@_color_model_tl  }
+        { \l_@@_color_values_tl }
+        { rgb                   }
+        {\l_@@_color_rgb_tl     }
+    \exp_after:wN \@@_color_calc_lum:w \l_@@_color_rgb_tl \q_stop #2
+}
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\@@_color_calc_lum:w}
+%
+% 根据 RGB 颜色值计算亮度值。
+%
+%    \begin{macrocode}
+\cs_new_protected:Npn \@@_color_calc_lum:w #1,#2,#3 \q_stop #4 {
+    \fp_set:Nn #4 { 0.2126 * (#1) + 0.7152 * (#2) + 0.0722 * (#3) }
+}
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\@@_color_select_contrast:nnnnn}
+%
+% 根据亮度差值选择对比度更高的颜色。
+%
+%    \begin{macrocode}
+\cs_new_protected:Nn \@@_color_select_contrast:nnnnn {
+    \@@_color_get_luminance:nN {#1} \l_@@_color_lum_fp
+    \fp_set:Nn \l_@@_color_diff_ab_fp { \l_@@_color_lum_fp }
+    \fp_set:Nn \l_@@_color_diff_ac_fp { \l_@@_color_lum_fp }
+    \@@_color_get_luminance:nN {#2} \l_@@_color_lum_fp
+    \fp_set:Nn \l_@@_color_diff_ab_fp
+        { abs ( \l_@@_color_diff_ab_fp - \l_@@_color_lum_fp ) }
+    \@@_color_get_luminance:nN {#3} \l_@@_color_lum_fp
+    \fp_set:Nn \l_@@_color_diff_ac_fp
+        { abs ( \l_@@_color_diff_ac_fp - \l_@@_color_lum_fp ) }
+    \fp_compare:nNnTF { \l_@@_color_diff_ab_fp } > { \l_@@_color_diff_ac_fp }
+      { \colorlet {#4} {#2} \colorlet {#5} {#3} }
+      { \colorlet {#4} {#3} \colorlet {#5} {#2} }
+}
+%    \end{macrocode}
+% \end{macro}
+%
+% 在幻灯片开头设置对比度最明显的颜色。
+%
+%    \begin{macrocode}
+\AtBeginDocument {
+    { \usebeamercolor { palette~primary } \usebeamercolor { normal~text } }
+    \@@_color_select_contrast:nnnnn
+        { normal~text.bg }
+        { palette~primary.fg }
+        { palette~primary.bg }
+        { titlepagefgcolor }
+        { titlepagebgcolor }
+}
+%    \end{macrocode}
+%
+%</outer>
+%
 %<*theme>
 %
 % \subsection{主题总体结构}
