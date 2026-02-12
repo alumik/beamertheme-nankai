@@ -334,17 +334,18 @@
 % \end{variable}
 %
 % \changes{v1.0}{2026/02/05}{为未来预留根据标题栏高度动态调整标志到顶部边距的变量。该功能目前未启用。}
+% \changes{v1.0}{2026/02/12}{将变量名称从 \texttt{logomargin} 修改为 \texttt{logotopmargin}。}
 %
-% \begin{variable}{\l_@@_logomargin_dim}
+% \begin{variable}{\l_@@_logotopmargin_dim}
 %
 % 标志到顶部边距。
 %
 %    \begin{macrocode}
-\dim_new:N  \l_@@_logomargin_dim
+\dim_new:N  \l_@@_logotopmargin_dim
 %    \end{macrocode}
 % \end{variable}
 %
-% \begin{variable}{\c_@@_logomargin_full_dim}
+% \begin{variable}{\c_@@_logotopmargin_full_dim}
 %
 % 有副标题时标志到顶部边距。
 %
@@ -353,7 +354,7 @@
 %    \end{macrocode}
 % \end{variable}
 %
-% \begin{variable}{\c_@@_logomargin_nosubtitle_dim}
+% \begin{variable}{\c_@@_logotopmargin_nosubtitle_dim}
 %
 % 无副标题时标志到顶部边距。
 %
@@ -696,8 +697,8 @@
             { \l_@@_headheight_dim            }
             { \c_@@_headheight_nosubtitle_dim }
         \dim_set_eq:NN
-            { \l_@@_logomargin_dim            }
-            { \c_@@_logomargin_nosubtitle_dim }
+            { \l_@@_logotopmargin_dim            }
+            { \c_@@_logotopmargin_nosubtitle_dim }
     }
     {
         \dim_set_eq:NN
@@ -710,8 +711,8 @@
 %
 %    \begin{macrocode}
         \dim_set_eq:NN
-            { \l_@@_logomargin_dim            }
-            { \c_@@_logomargin_full_dim }
+            { \l_@@_logotopmargin_dim      }
+            { \c_@@_logotopmargin_full_dim }
     }
 %    \end{macrocode}
 %
@@ -732,7 +733,7 @@
         \node [
             anchor    = north~east,
             xshift    = -0.5cm,
-            yshift    = -\dim_use:N \l_@@_logomargin_dim,
+            yshift    = -\l_@@_logotopmargin_dim,
             inner~sep = 0pt,
         ] at ( current~page.north~east ) {
             \resizebox { ! } { 0.5\c_@@_headheight_nosubtitle_dim }
