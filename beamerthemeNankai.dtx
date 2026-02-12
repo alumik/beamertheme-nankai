@@ -69,7 +69,7 @@
 %     \bool_set_true:N,
 %     \cs_new:Nn, \cs_new_protected:Nn, \DeclareOptionBeamer,
 %     \defbeamertemplate, \definecolor, \dim_eval:n, \dim_new:N,
-%     \dim_use:N, \end, \ExplSyntaxOff, \ExplSyntaxOn, \hbox_to_wd:nn, \hfill,
+%     \end, \ExplSyntaxOff, \ExplSyntaxOn, \hbox_to_wd:nn, \hfill,
 %     \insertframenumber, \insertframesubtitle, \insertsectionhead,
 %     \insertsubsectionhead, \insertsubsubsectionhead, \inserttotalframenumber,
 %     \insertverticalnavigation, \insertframetitle, \kaishu, \leftskip, \mode,
@@ -213,6 +213,7 @@
 % \section{代码实现}
 %
 %<*outer>
+%
 %    \begin{macrocode}
 %<@@=nkbeamer>
 %    \end{macrocode}
@@ -234,9 +235,7 @@
 % 读取并处理用户输入的模板参数。
 %
 %    \begin{macrocode}
-\DeclareOptionBeamer { hidesidebar } {
-    \bool_set_true:N \l_@@_hidesidebar_bool
-}
+\DeclareOptionBeamer { hidesidebar } { \bool_set_true:N \l_@@_hidesidebar_bool }
 \ProcessOptionsBeamer
 %    \end{macrocode}
 %
@@ -259,7 +258,7 @@
 %
 % \subsubsection{引入必要依赖}
 %
-% \changes{v1.0}{2026/02/06}{引入 \pkg{shadows.blur} 库，支持绘图阴影效果。}
+% \changes{v1.0}{2026/02/06}{引入 \pkg{shadows.blur} 库，支持绘制阴影效果。}
 %
 %    \begin{macrocode}
 \RequirePackage { tikz }
@@ -294,8 +293,6 @@
 \usebeamerfont { frametitle }
 %    \end{macrocode}
 %
-% \changes{v1.0}{2026/02/05}{根据是否包含副标题动态调整标题栏高度。}
-%
 % \begin{variable}{\c_@@_sidebarwidth_dim}
 %
 % 侧边栏宽度。
@@ -310,6 +307,8 @@
 % \begin{variable}{\l_@@_headheight_dim}
 %
 % 标题栏高度。
+%
+% \changes{v1.0}{2026/02/05}{根据是否包含副标题动态调整标题栏高度。}
 %
 %    \begin{macrocode}
 \dim_new:N  \l_@@_headheight_dim
@@ -354,8 +353,6 @@
 %    \end{macrocode}
 % \end{variable}
 %
-% \changes{v1.0}{2026/02/06}{取消标志内边距，保持不同页面上的标志位置一致。}
-%
 % \begin{variable}{\c_@@_logomargin_nosubtitle_dim}
 %
 % 无副标题时标志到顶部边距。
@@ -365,11 +362,11 @@
 %    \end{macrocode}
 % \end{variable}
 %
-% \changes{v1.0}{2026/02/05}{将一些变量更改为常量。}
-%
 % \begin{variable}{\c_@@_footheight_dim}
 %
 % 底栏高度。
+%
+% \changes{v1.0}{2026/02/05}{将变量更改为常量。}
 %
 %    \begin{macrocode}
 \dim_const:Nn \c_@@_footheight_dim { 0.3cm }
@@ -395,11 +392,11 @@
 % \renewcommand*{\@xobeysp}{\leavevmode\penalty100\ }
 % \makeatother
 %
-% \changes{v1.0}{2026/02/06}{支持通过传入参数控制南开大学标志颜色。}
-%
 % \begin{macro}{\@@_nankai_logo:n}
 %
 % 打印南开大学标志。
+%
+% \changes{v1.0}{2026/02/06}{支持通过传入参数控制南开大学标志颜色。}
 %
 %    \begin{macrocode}
 \cs_new:Nn \@@_nankai_logo:n {
@@ -481,6 +478,8 @@
 %
 %</outer>
 %
+% \subsubsection{颜色相关配置}
+%
 %<*shared>
 %
 % 打开展示模式。
@@ -493,44 +492,37 @@
 %
 %<*color>
 %
-% \subsubsection{颜色相关配置}
-%
 %    \begin{macrocode}
-\definecolor { NankaiMain } { HTML } { 711a5f }
-\usecolortheme { whale  }
-\usecolortheme { orchid }
+\definecolor     { NankaiMain } { HTML } { 711a5f }
+\usecolortheme   { whale      }
+\usecolortheme   { orchid     }
 \setbeamercolor* { structure               } { fg     = NankaiMain      }
 \setbeamercolor* { frametitle              } { parent = palette~primary }
 \setbeamercolor  { block~title             } { bg     = structure.fg    }
 \setbeamercolor* { palette~sidebar~primary } { parent = structure       }
 \setbeamercolor* { sidebar } { use = structure, bg = structure.fg!10!white }
-\setbeamercolor*
-    { page~number~in~head/foot }
+\setbeamercolor* { page~number~in~head/foot }
     { use = frametitle, fg = frametitle.fg }
-\setbeamercolor*
-    { palette~sidebar~secondary }
+\setbeamercolor* { palette~sidebar~secondary }
     { parent = structure, fg = structure.fg!60!black }
-\setbeamercolor
-    { section~in~sidebar }
+\setbeamercolor  { section~in~sidebar }
     {
         use = frametitle,
         fg  = frametitle.fg,
         bg  = frametitle.fg!20!frametitle.bg,
     }
-\setbeamercolor
-    { section~in~sidebar~shaded }
+\setbeamercolor  { section~in~sidebar~shaded }
     {
         use = { palette~sidebar~secondary, normal~text, sidebar },
-        fg = palette~sidebar~secondary.fg!60!sidebar.bg,
-        bg = sidebar.bg,
+        fg  = palette~sidebar~secondary.fg!60!sidebar.bg,
+        bg  = sidebar.bg,
     }
-\setbeamercolor { subsection~in~sidebar } { parent = section~in~sidebar }
-\setbeamercolor
-    { subsection~in~sidebar~shaded }
+\setbeamercolor  { subsection~in~sidebar } { parent = section~in~sidebar }
+\setbeamercolor  { subsection~in~sidebar~shaded }
     {
         use = { palette~sidebar~primary, normal~text, sidebar },
-        fg = palette~sidebar~primary.fg!60!sidebar.bg,
-        bg = sidebar.bg,
+        fg  = palette~sidebar~primary.fg!60!sidebar.bg,
+        bg  = sidebar.bg,
     }
 %    \end{macrocode}
 %
@@ -640,8 +632,8 @@
     \fp_set:Nn \l_@@_color_diff_ac_fp
         { abs ( \l_@@_color_diff_ac_fp - \l_@@_color_lum_fp ) }
     \fp_compare:nNnTF { \l_@@_color_diff_ab_fp } > { \l_@@_color_diff_ac_fp }
-      { \colorlet {#4} {#2} \colorlet {#5} {#3} }
-      { \colorlet {#4} {#3} \colorlet {#5} {#2} }
+        { \colorlet {#4} {#2} \colorlet {#5} {#3} }
+        { \colorlet {#4} {#3} \colorlet {#5} {#2} }
 }
 %    \end{macrocode}
 % \end{macro}
@@ -650,7 +642,7 @@
 %
 %    \begin{macrocode}
 \AtBeginDocument {
-    { \usebeamercolor { palette~primary } \usebeamercolor { normal~text } }
+    { \usebeamercolor { palette~primary } }
     \@@_color_select_contrast:nnnnn
         { normal~text.bg }
         { palette~primary.fg }
@@ -680,17 +672,12 @@
 %
 %    \begin{macrocode}
 \defbeamertemplate* { background } { @@ } {
-    {
-        \usebeamercolor { palette~primary }
-        \usebeamercolor { normal~text     }
-    }
     \begin { tikzpicture } [ remember~picture, overlay ]
         \shade [
-            top~color     = normal~text.bg,
-            bottom~color  = palette~primary.bg!3!normal~text.bg,
+            top~color    = normal~text.bg,
+            bottom~color = palette~primary.bg!3!normal~text.bg,
         ]
-            ( current~page.north~west ) rectangle
-            ( current~page.south~east );
+            ( current~page.north~west ) rectangle ( current~page.south~east );
     \end { tikzpicture }
 }
 %    \end{macrocode}
@@ -714,26 +701,24 @@
     }
     {
         \dim_set_eq:NN
-            { \l_@@_headheight_dim            }
-            { \c_@@_headheight_full_dim       }
+            { \l_@@_headheight_dim      }
+            { \c_@@_headheight_full_dim }
 %    \end{macrocode}
 %
 % 在这里，虽然标题栏高度已经设置为包含副标题的高度，但为了保持与无副标题时标志位
-% 置的一致性，标志的上边距仍然使用无副标题时的设置。本主题已经预留了垂直居中显示
-% 标志的尺寸变量 \cs{c_@@_logomargin_nosubtitle_dim}，后续可能启用该功能。
+% 置的一致性，标志的上边距仍然使用无副标题时的设置。
 %
 %    \begin{macrocode}
         \dim_set_eq:NN
             { \l_@@_logomargin_dim            }
             { \c_@@_logomargin_full_dim }
+    }
 %    \end{macrocode}
 %
 % \changes{v1.0}{2026/02/05}{页面标题与正文左对齐。}
 % \changes{v1.0}{2026/02/06}{取消标志内边距，保持不同页面上的标志位置一致。}
 %
 %    \begin{macrocode}
-    }
-    { \usebeamercolor { frametitle } }
     \begin { tikzpicture } [ remember~picture, overlay ]
         \shadedraw [
             top~color     = frametitle.fg!20!frametitle.bg,
@@ -742,10 +727,7 @@
             draw          = frametitle.fg!20!frametitle.bg,
         ]
             ( current~page.north~west ) rectangle
-            (
-                [ yshift = - \dim_use:N \l_@@_headheight_dim ]
-                current~page.north~east
-            );
+                ( [ yshift = -\l_@@_headheight_dim ] current~page.north~east );
         \node [
             anchor    = north~east,
             xshift    = -0.5cm,
@@ -793,15 +775,11 @@
 \beamer@nav@subsectionstyle { show/show/hide }
 %    \end{macrocode}
 %
-% \changes{v1.0}{2026/02/05}{将一些变量更改为常量。}
-%
 % 设置侧边栏宽度。
 %
 %    \begin{macrocode}
-\setbeamersize { sidebar~width~left = \dim_use:N \c_@@_sidebarwidth_dim }
+\setbeamersize { sidebar~width~left = \c_@@_sidebarwidth_dim }
 %    \end{macrocode}
-%
-% \changes{v1.0}{2026/02/05}{将一些变量更改为常量。}
 %
 % \begin{macro}{\@@_sidebarformat:nnn}
 %
@@ -810,7 +788,7 @@
 %    \begin{macrocode}
 \cs_new_protected:Nn \@@_sidebarformat:nnn {
     \begin { beamercolorbox } [
-        wd        = \dim_use:N \c_@@_sidebarwidth_dim,
+        wd        = \c_@@_sidebarwidth_dim,
         leftskip  = {#1},
         rightskip = 1ex plus 1fil,
         vmode,
@@ -892,15 +870,13 @@
 }
 %    \end{macrocode}
 %
-% \changes{v1.0}{2026/02/05}{将一些变量更改为常量。}
-%
 % 定义侧边栏模板。
 %
 %    \begin{macrocode}
 \bool_if:NF \l_@@_hidesidebar_bool {
     \defbeamertemplate* { sidebar~left } { @@ } {
         \vspace* { \dim_eval:n { \c_@@_headheight_full_dim + \baselineskip } }
-        \insertverticalnavigation { \dim_use:N \c_@@_sidebarwidth_dim }
+        \insertverticalnavigation { \c_@@_sidebarwidth_dim }
         \vfill
     }
 }
@@ -908,32 +884,28 @@
 %
 % \subsection{底栏样式}
 %
-% \changes{v1.0}{2026/02/05}{将一些变量更改为常量。}
-%
 %    \begin{macrocode}
 \defbeamertemplate* { footline } { @@ } {
     { \usebeamercolor { frametitle } }
     \begin { tikzpicture } [ remember~picture, overlay ]
         \shadedraw [
-            top~color    = frametitle.fg!20!frametitle.bg,
-            bottom~color = frametitle.bg,
-            draw         = frametitle.fg!20!frametitle.bg,
+            top~color     = frametitle.fg!20!frametitle.bg,
+            bottom~color  = frametitle.bg,
+            draw          = frametitle.fg!20!frametitle.bg,
             shading~angle = 135,
         ]
             ( current~page.south~west ) rectangle
-            (
-                [ yshift = \dim_use:N \c_@@_footheight_dim ]
-                current~page.south~east
-            );
+                ( [ yshift = \c_@@_footheight_dim ] current~page.south~east );
     \end { tikzpicture }
-    \vbox_to_ht:nn { \dim_use:N \c_@@_footheight_dim } {
+    \vbox_to_ht:nn { \c_@@_footheight_dim } {
         \vfill
         \hbox_to_wd:nn { \textwidth } {
             \hfill
             \usebeamercolor [ fg ] { page~number~in~head/foot }
             \usebeamerfont { page~number~in head/foot }
-            {\insertframenumber}~/~\inserttotalframenumber
+            \insertframenumber{} ~ / ~ \inserttotalframenumber
             \hfill
+            \par
         }
         \vfill
     }
@@ -975,10 +947,12 @@
             },
         ]
             ( [ xshift = -3pt, yshift = 3pt ] current~page.north~west ) --
-            ( [ xshift = 0.35\paperwidth, yshift = 3pt ] current~page.north~west ) [ rounded~corners = 15pt ] --
-            ( [ xshift = 0.35\paperwidth, yshift = 20pt ] current~page.south~west ) [ sharp~corners ] --
-            ( [ xshift = -3pt, yshift = -3pt ] current~page.south~west ) --
-            cycle;
+                ( [ xshift = 0.35\paperwidth, yshift = 3pt ] current~page.north~west ) [ rounded~corners = 15pt ] --
+                ( [ xshift = 0.35\paperwidth, yshift = 20pt ] current~page.south~west ) [ sharp~corners ] --
+                ( [ xshift = -3pt, yshift = -3pt ] current~page.south~west ) --
+                cycle;
+%    \end{macrocode}
+%
 % 章节编号。
 %
 %    \begin{macrocode}
@@ -1013,7 +987,7 @@
                 \begin { minipage } { 0.5\paperwidth }
                     { \fontsize { 28 } { 34 } \selectfont \bfseries \insertsection \par }
                     \vspace* { 0.3cm }
-                    \tikz \draw [ titlepagefgcolor, line~width=1.5pt] ( 0, 0 ) -- ( 1.2, 0 );
+                    \tikz \draw [ titlepagefgcolor, line~width = 1.5pt ] ( 0, 0 ) -- ( 1.2, 0 );
                 \end { minipage }
             };
 %    \end{macrocode}
