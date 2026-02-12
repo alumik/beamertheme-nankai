@@ -1190,6 +1190,16 @@
                     current~page.south~west
                 ) --
                 cycle;
+        \node [
+            anchor    = center,
+            xshift    = -0.05\paperwidth,
+            yshift    = -0.1\paperwidth,
+            inner~sep = 0pt,
+            rotate    = -45,
+        ] at ( current~page.north~west ) {
+            \resizebox { ! } { 0.7\paperwidth }
+                { \@@_nankai_logo_a:n { frametitle.bg } }
+        };
 %    \end{macrocode}
 %
 % 章节编号。
@@ -1238,17 +1248,9 @@
         };
 %    \end{macrocode}
 %
-% 右上与左下的点状装饰。
+% 右下的点状装饰。
 %
 %    \begin{macrocode}
-        \foreach \x in { 0, 1, 2, 3, 4 } \foreach \y in { 0, 1, 2, 3, 4 } {
-            \pgfmathsetmacro \opa { 1 - \x / 5 }
-            \fill [ fill = frametitle.bg!60!frametitle.fg, opacity = \opa ]
-                (
-                    [ xshift = 5pt + \x * 5pt, yshift = -5pt - \y * 5pt ]
-                    current~page.north~west
-                ) circle ( 1.5pt );
-        }
         \foreach \x in { 0, 1, 2, 3, 4 } \foreach \y in { 0, 1, 2, 3, 4 } {
             \pgfmathsetmacro \opa { 1 - \x / 5 }
             \fill [ fill = titlepagebgcolor!60!titlepagefgcolor, opacity = \opa ]
