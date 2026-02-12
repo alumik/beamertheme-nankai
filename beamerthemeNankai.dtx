@@ -369,6 +369,17 @@
 %    \end{macrocode}
 % \end{variable}
 %
+% \begin{variable}{\c_@@_logosidemargin_dim}
+%
+% 标志到侧边距。
+%
+% \changes{v1.0}{2026/02/12}{使用变量控制标志到侧边的边距。}
+%
+%    \begin{macrocode}
+\dim_const:Nn \c_@@_logosidemargin_dim { 0.625\baselineskip }
+%    \end{macrocode}
+% \end{variable}
+%
 % \begin{variable}{\c_@@_footheight_dim}
 %
 % 底栏高度。
@@ -739,7 +750,7 @@
                 ( [ yshift = -\l_@@_headheight_dim ] current~page.north~east );
         \node [
             anchor    = north~east,
-            xshift    = -0.5cm,
+            xshift    = -\c_@@_logosidemargin_dim,
             yshift    = -\l_@@_logotopmargin_dim,
             inner~sep = 0pt,
         ] at ( current~page.north~east ) {
