@@ -87,7 +87,8 @@
 %     \exp_after:wN, \insertsection, \insertsectionnumber, \paperwidth,
 %     \pgfmathsetmacro, \q_stop, \tikz, \x, \y, \hspace, \Huge,
 %     \huge, \insertauthor, \insertdate, \insertinstitute, \inserttitle,
-%     \insertsubtitle, \large, \paperheight, \raggedright, \resizebox,
+%     \insertsubtitle, \large, \paperheight, \raggedright, \resizebox, \let,
+%     \cs_if_exist:NF, \sffamily,
 % }
 %
 % \title{\textbf{beamertheme-nankai：一个专为南开大学设计的 Beamer 主题}}
@@ -284,6 +285,7 @@
 % 将楷书字体应用到页面标题。
 %
 %    \begin{macrocode}
+\cs_if_exist:NF \kaishu { \let \kaishu \sffamily }
 \setbeamerfont { frametitle } { family = \kaishu }
 %    \end{macrocode}
 %
