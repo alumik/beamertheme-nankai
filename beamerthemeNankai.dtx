@@ -90,7 +90,7 @@
 %     \insertsubtitle, \large, \paperheight, \raggedright, \resizebox,
 % }
 %
-% \title{\textbf{beamertheme-nankai：南开大学 Beamer 主题}}
+% \title{\textbf{beamertheme-nankai：一个专为南开大学设计的 Beamer 主题}}
 % \author{钟震宇 \\ \texttt{zyzhong@mail.nankai.edu.cn}}
 % \date{2026/02/13\quad v1.0.2}
 % \maketitle
@@ -981,7 +981,12 @@
     \setbeamerfont { author    } { size = \large, family = \kaishu }
     \setbeamerfont { institute } { size = \large, family = \kaishu }
     \setbeamerfont { date      } { size = \large, family = \kaishu }
-    \begin { tikzpicture } [ remember~picture, overlay ]
+    \begin { tikzpicture } [
+        remember~picture,
+        overlay,
+        inner~sep = 0pt,
+        outer~sep = 0pt,
+    ]
 %    \end{macrocode}
 %
 % 背景：浅灰色世界地图轮廓。
@@ -1039,20 +1044,6 @@
         };
 %    \end{macrocode}
 %
-% 左上角 Logo 区域。
-%
-%    \begin{macrocode}
-        \node [
-            anchor    = north~west,
-            xshift    = \c_@@_logosidemargin_dim,
-            yshift    = -\c_@@_logotopmargin_nosubtitle_dim,
-            inner~sep = 0pt,
-        ] at ( current~page.north~west ) {
-            \begin{tikzpicture}
-            \end{tikzpicture}
-        };
-%    \end{macrocode}
-%
 % 右上角 Logo 区域。
 %
 %    \begin{macrocode}
@@ -1093,10 +1084,16 @@
 %    \begin{macrocode}
         \node [
             anchor = west,
-            xshift = 0.5cm,
+            xshift = 0.6cm,
             text   = titlepagefgcolor,
         ] ( title ) at ( square.east ) {
-            \begin { minipage } { 0.7\paperwidth }
+            \begin { minipage }
+                { \dim_eval:n {
+                    \paperwidth -
+                    2.5\baselineskip -
+                    0.6cm -
+                    \c_@@_logosidemargin_dim
+                } }
                 \raggedright
                 \reset@font
                 \usebeamerfont { title }
@@ -1105,10 +1102,16 @@
         };
         \node[
             anchor = north~west,
-            yshift = -0.5\baselineskip,
+            yshift = -\baselineskip,
             text   = normal~text.fg,
         ] at ( title.south~west ) {
-            \begin { minipage } { 0.7\paperwidth }
+            \begin { minipage }
+                { \dim_eval:n {
+                    \paperwidth -
+                    2.5\baselineskip -
+                    0.6cm -
+                    \c_@@_logosidemargin_dim
+                } }
                 \raggedright
                 \reset@font
                 \usebeamerfont { subtitle }
@@ -1123,19 +1126,19 @@
         \begin { scope } [
             shift = { ( $(current~page.south~east)+(0,1)$ ) },
         ]
-            \node [ anchor = east ] at ( -0.5, 1.5 ) {
+            \node [ anchor = east ] at ( -\c_@@_logosidemargin_dim, 1.5 ) {
                 \reset@font
                 \usebeamerfont { author }
                 \insertauthor
                 \par
             };
-            \node [ anchor = east ] at ( -0.5, 0.75 ) {
+            \node [ anchor = east ] at ( -\c_@@_logosidemargin_dim, 0.75 ) {
                 \reset@font
                 \usebeamerfont { institute }
                 \insertinstitute
                 \par
             };
-            \node [ anchor = east ] at ( -0.5, 0 ) {
+            \node [ anchor = east ] at ( -\c_@@_logosidemargin_dim, 0 ) {
                 \reset@font
                 \usebeamerfont { date }
                 \insertdate
@@ -1156,7 +1159,12 @@
     \nointerlineskip
     \setbeamerfont { section~name  } { size = \Huge, series = \bfseries }
     \setbeamerfont { section~title } { size = \Huge, series = \bfseries }
-    \begin { tikzpicture } [ remember~picture, overlay ]
+    \begin { tikzpicture } [
+        remember~picture,
+        overlay,
+        inner~sep = 0pt,
+        outer~sep = 0pt,
+    ]
 %    \end{macrocode}
 %
 % 左边的大块梯形装饰。
@@ -1238,14 +1246,23 @@
             xshift = 0.6cm,
             text   = titlepagefgcolor,
         ] at ( sectionnum.east ) {
-            \begin { minipage } { 0.5\paperwidth }
+            \begin { minipage }
+                { \dim_eval:n {
+                    0.65\paperwidth -
+                    0.85cm -
+                    0.6cm -
+                    \c_@@_logosidemargin_dim
+                } }
                 {
+                    \raggedright
+                    \reset@font
                     \usebeamerfont { section~title }
                     \insertsection
                     \par
                 }
                 \vspace* { 0.3cm }
-                \tikz \draw [ titlepagefgcolor, line~width = 1.5pt ] ( 0, 0 ) -- ( 1.2, 0 );
+                \tikz \draw [ titlepagefgcolor, line~width = 1.5pt ]
+                    ( 0, 0 ) -- ( 1.2, 0 );
             \end { minipage }
         };
 %    \end{macrocode}
