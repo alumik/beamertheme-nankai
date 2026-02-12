@@ -981,6 +981,7 @@
 %    \begin{macrocode}
         \node [
             circle,
+            xshift       = 0.35\paperwidth,
             text         = frametitle.fg,
             draw         = frametitle.fg,
             line~width   = 3pt,
@@ -994,7 +995,7 @@
                 shadow~blur~steps  = 10,
             },
         ] ( sectionnum )
-            at ( [ xshift = 0.35\paperwidth, yshift = 0cm ] current~page.west) {
+            at ( current~page.west ) {
                 \usebeamerfont { section~name }
                 \insertsectionnumber
                 \par
@@ -1004,18 +1005,21 @@
 % 章节名称。
 %
 %    \begin{macrocode}
-        \node [ anchor = west, text = titlepagefgcolor ]
-            at ( [ xshift = 0.6cm ] sectionnum.east ) {
-                \begin { minipage } { 0.5\paperwidth }
-                    {
-                        \usebeamerfont { section~title }
-                        \insertsection
-                        \par
-                    }
-                    \vspace* { 0.3cm }
-                    \tikz \draw [ titlepagefgcolor, line~width = 1.5pt ] ( 0, 0 ) -- ( 1.2, 0 );
-                \end { minipage }
-            };
+        \node [
+            anchor = west,
+            xshift = 0.6cm,
+            text   = titlepagefgcolor,
+        ] at ( sectionnum.east ) {
+            \begin { minipage } { 0.5\paperwidth }
+                {
+                    \usebeamerfont { section~title }
+                    \insertsection
+                    \par
+                }
+                \vspace* { 0.3cm }
+                \tikz \draw [ titlepagefgcolor, line~width = 1.5pt ] ( 0, 0 ) -- ( 1.2, 0 );
+            \end { minipage }
+        };
 %    \end{macrocode}
 %
 % 右上与左下的点状装饰。
