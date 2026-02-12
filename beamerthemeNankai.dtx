@@ -717,6 +717,7 @@
 %
 % \changes{v1.0}{2026/02/05}{页面标题与正文左对齐。}
 % \changes{v1.0}{2026/02/06}{取消标志内边距，保持不同页面上的标志位置一致。}
+% \changes{v1.0}{2026/02/12}{不再设置标题栏内标志的缩放比例，改为设置其绝对高度。}
 %
 %    \begin{macrocode}
     \begin { tikzpicture } [ remember~picture, overlay ]
@@ -734,7 +735,8 @@
             yshift    = -\dim_use:N \l_@@_logomargin_dim,
             inner~sep = 0pt,
         ] at ( current~page.north~east ) {
-            \scalebox { 0.023 }{ \@@_nankai_logo:n { frametitle.fg } }
+            \resizebox { ! } { 0.5\c_@@_headheight_nosubtitle_dim }
+                { \@@_nankai_logo:n { frametitle.fg } }
         };
     \end { tikzpicture }
     \vbox_to_ht:nn { \l_@@_headheight_dim } {
