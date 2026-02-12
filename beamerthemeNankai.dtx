@@ -349,8 +349,11 @@
 %
 % 有副标题时标志到顶部边距。
 %
+% \changes{v1.0}{2026/02/12}{使用相对尺寸而不是绝对尺寸。}
+%
 %    \begin{macrocode}
-\dim_const:Nn \c_@@_logomargin_full_dim { 0.25cm }
+\dim_const:Nn \c_@@_logotopmargin_full_dim
+    { 0.25\c_@@_headheight_nosubtitle_dim }
 %    \end{macrocode}
 % \end{variable}
 %
@@ -358,8 +361,11 @@
 %
 % 无副标题时标志到顶部边距。
 %
+% \changes{v1.0}{2026/02/12}{使用相对尺寸而不是绝对尺寸。}
+%
 %    \begin{macrocode}
-\dim_const:Nn \c_@@_logomargin_nosubtitle_dim { 0.25cm }
+\dim_const:Nn \c_@@_logotopmargin_nosubtitle_dim
+    { 0.25\c_@@_headheight_nosubtitle_dim }
 %    \end{macrocode}
 % \end{variable}
 %
