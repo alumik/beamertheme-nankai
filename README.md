@@ -1,6 +1,6 @@
 # beamertheme-nankai：南开大学 Beamer 主题
 
-![version 1.0.2](https://img.shields.io/badge/version-1.0.2-blue)
+![version 1.1.0](https://img.shields.io/badge/version-1.1.0-blue)
 ![license-LPPL-1.3c](https://img.shields.io/github/license/alumik/nkthesis)
 
 > [!TIP]
@@ -135,4 +135,4 @@ beamertheme-nankai 是一款专为南开大学师生设计的 LaTeX Beamer 主�
 ```
 
 > [!WARNING]
-> ⚠️ 由于侧边栏和标题栏使用了 TikZ 的 `remember picture, overlay` 选项，初次编译后可能需要运行 **2-3 次** LaTeX 编译以确保元素位置对齐准确。
+> ⚠️ 由于侧边栏和标题栏使用了 TikZ 的 `remember picture, overlay` 选项，初次编译后可能需要运行 **2-3 次** 编译以确保元素位置对齐准确。

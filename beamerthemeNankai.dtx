@@ -20,13 +20,13 @@
 %<shared>\RequirePackage{expl3}
 %<shared>\ProvidesExplPackage
 %<theme>    {beamerthemeNankai}
+%<inner>    {beamerinnerthemeNankai}
 %<outer>    {beamerouterthemeNankai}
 %<color>    {beamercolorthemeNankai}
+%<font>     {beamerfontthemeNankai}
 %<shared>    {2026/02/13}
-%<shared>    {v1.0.2}
-%<theme>    {Beamer theme of Nankai University}
-%<outer>    {Beamer outer theme of Nankai University}
-%<color>    {Beamer color theme of Nankai University}
+%<shared>    {v1.1.0}
+%<shared>    {Beamer theme of Nankai University}
 %
 %<*driver>
 \documentclass{ctxdoc}
@@ -88,12 +88,12 @@
 %     \pgfmathsetmacro, \q_stop, \tikz, \x, \y, \hspace, \Huge,
 %     \huge, \insertauthor, \insertdate, \insertinstitute, \inserttitle,
 %     \insertsubtitle, \large, \paperheight, \raggedright, \resizebox, \let,
-%     \cs_if_exist:NF, \sffamily,
+%     \cs_if_exist:NF, \sffamily, \Large, \usefonttheme,
 % }
 %
 % \title{\textbf{beamertheme-nankai：一个专为南开大学设计的 Beamer 主题}}
 % \author{钟震宇 \\ \texttt{zyzhong@mail.nankai.edu.cn}}
-% \date{2026/02/13\quad v1.0.2}
+% \date{2026/02/13\quad v1.1.0}
 % \maketitle
 %
 % \begin{abstract}
@@ -202,7 +202,7 @@
 %
 % \begin{warningbox}
 %     由于侧边栏和标题栏使用了 TikZ 的 \texttt{remember picture, overlay} 选项进行定位，
-%     在修改结构或初次编译后，可能需要运行 \textbf{两到三次} LaTeX 编译以确保元素位置对齐准确。
+%     在修改结构或初次编译后，可能需要运行 \textbf{两到三次} 编译以确保元素位置对齐准确。
 % \end{warningbox}
 %
 % \end{documentation}
@@ -215,13 +215,103 @@
 %
 % \section{代码实现}
 %
-%<*outer>
-%
 %    \begin{macrocode}
 %<@@=nkbeamer>
 %    \end{macrocode}
 %
-% \subsection{一些基础定义}
+% \subsection{主题主文件}
+%
+%<*theme>
+%
+% 在主文件中传递主题参数。
+%
+%    \begin{macrocode}
+\DeclareOptionBeamer { hidesidebar } {
+    \PassOptionsToPackage { hidesidebar } { beamerouterthemeNankai }
+}
+\ProcessOptionsBeamer
+%    \end{macrocode}
+%
+% 定义主题总体结构。调用必要的子主题。
+%
+%    \begin{macrocode}
+\mode < presentation >
+\usecolortheme { Nankai }
+\usefonttheme  { Nankai }
+\useoutertheme { Nankai }
+\useinnertheme { Nankai }
+\mode < all >
+%    \end{macrocode}
+%
+%</theme>
+%
+% \subsection{颜色主题文件}
+%
+%<*color>
+%
+%    \begin{macrocode}
+\mode < presentation >
+\definecolor     { NankaiMain } { HTML } { 711a5f }
+\usecolortheme   { whale      }
+\usecolortheme   { orchid     }
+\setbeamercolor* { structure               } { fg     = NankaiMain      }
+\setbeamercolor* { frametitle              } { parent = palette~primary }
+\setbeamercolor  { block~title             } { bg     = structure.fg    }
+\setbeamercolor* { palette~sidebar~primary } { parent = structure       }
+\setbeamercolor* { sidebar } { use = structure, bg = structure.fg!10!white }
+\setbeamercolor* { page~number~in~head/foot }
+    { use = frametitle, fg = frametitle.fg }
+\setbeamercolor* { palette~sidebar~secondary }
+    { parent = structure, fg = structure.fg!60!black }
+\setbeamercolor  { section~in~sidebar }
+    {
+        use = frametitle,
+        fg  = frametitle.fg,
+        bg  = frametitle.fg!20!frametitle.bg,
+    }
+\setbeamercolor  { section~in~sidebar~shaded }
+    {
+        use = { palette~sidebar~secondary, normal~text, sidebar },
+        fg  = palette~sidebar~secondary.fg!60!sidebar.bg,
+        bg  = sidebar.bg,
+    }
+\setbeamercolor  { subsection~in~sidebar } { parent = section~in~sidebar }
+\setbeamercolor  { subsection~in~sidebar~shaded }
+    {
+        use = { palette~sidebar~primary, normal~text, sidebar },
+        fg  = palette~sidebar~primary.fg!60!sidebar.bg,
+        bg  = sidebar.bg,
+    }
+\mode < all >
+%    \end{macrocode}
+%
+%</color>
+%
+% \subsection{字体主题文件}
+%
+%<*font>
+%
+%    \begin{macrocode}
+\mode < presentation >
+\cs_if_exist:NF \kaishu { \let \kaishu \sffamily }
+\setbeamerfont { frametitle    } { size = \Large, family = \kaishu   }
+\setbeamerfont { title         } { size = \huge,  family = \kaishu   }
+\setbeamerfont { subtitle      } { size = \large, family = \kaishu   }
+\setbeamerfont { author        } { size = \large, family = \kaishu   }
+\setbeamerfont { institute     } { size = \large, family = \kaishu   }
+\setbeamerfont { date          } { size = \large, family = \kaishu   }
+\setbeamerfont { section~name  }
+    { size = \Huge, family = \sffamily, series = \bfseries }
+\setbeamerfont { section~title }
+    { size = \Huge, family = \sffamily, series = \bfseries }
+\mode < all >
+%    \end{macrocode}
+%
+%</font>
+%
+% \subsection{外部主题文件}
+%
+%<*outer>
 %
 % \subsubsection{模板参数}
 %
@@ -242,36 +332,6 @@
 \ProcessOptionsBeamer
 %    \end{macrocode}
 %
-%</outer>
-%
-%<*theme>
-%
-% 在主题主文件中传递参数。
-%
-%    \begin{macrocode}
-\DeclareOptionBeamer { hidesidebar } {
-    \PassOptionsToPackage { hidesidebar } { beamerouterthemeNankai }
-}
-\ProcessOptionsBeamer
-%    \end{macrocode}
-%
-%</theme>
-%
-%<*outer>
-%
-% \subsubsection{引入必要依赖}
-%
-% \changes{v1.0}{2026/02/06}{引入 \pkg{shadows.blur} 库，支持绘制阴影效果。}
-%
-%    \begin{macrocode}
-\RequirePackage { tikz }
-\ExplSyntaxOff
-\usetikzlibrary { positioning, shadows.blur }
-\ExplSyntaxOn
-%    \end{macrocode}
-%
-% \subsubsection{字体相关配置}
-%
 % \begin{variable}{\l_@@_restoresize_tl}
 %
 % 存储当前字体大小，便于最后恢复。
@@ -282,11 +342,15 @@
 %    \end{macrocode}
 % \end{variable}
 %
-% 将楷书字体应用到页面标题。
+% \subsubsection{引入必要依赖}
+%
+% \changes{v1.0}{2026/02/06}{引入 \pkg{shadows.blur} 库，支持绘制阴影效果。}
 %
 %    \begin{macrocode}
-\cs_if_exist:NF \kaishu { \let \kaishu \sffamily }
-\setbeamerfont { frametitle } { family = \kaishu }
+\RequirePackage { tikz }
+\ExplSyntaxOff
+\usetikzlibrary { positioning, shadows.blur }
+\ExplSyntaxOn
 %    \end{macrocode}
 %
 % \subsubsection{尺寸相关配置}
@@ -409,6 +473,8 @@
 %
 % \subsubsection{南开大学标志}
 %
+% 南开大学标志分为图标部分和文字部分两大块。
+%
 % \begin{macro}{\@@_nankai_logo_a:n}
 %
 % 使用 TikZ 绘制南开大学标志的第一部分（图标部分）。
@@ -520,61 +586,15 @@
 %    \end{macrocode}
 % \end{macro}
 %
-%</outer>
-%
-% \subsubsection{颜色相关配置}
-%
-%<*shared>
-%
 % 打开展示模式。
 %
 %    \begin{macrocode}
-\mode<presentation>
+\mode < presentation >
 %    \end{macrocode}
 %
-%</shared>
-%
-%<*color>
-%
-%    \begin{macrocode}
-\definecolor     { NankaiMain } { HTML } { 711a5f }
-\usecolortheme   { whale      }
-\usecolortheme   { orchid     }
-\setbeamercolor* { structure               } { fg     = NankaiMain      }
-\setbeamercolor* { frametitle              } { parent = palette~primary }
-\setbeamercolor  { block~title             } { bg     = structure.fg    }
-\setbeamercolor* { palette~sidebar~primary } { parent = structure       }
-\setbeamercolor* { sidebar } { use = structure, bg = structure.fg!10!white }
-\setbeamercolor* { page~number~in~head/foot }
-    { use = frametitle, fg = frametitle.fg }
-\setbeamercolor* { palette~sidebar~secondary }
-    { parent = structure, fg = structure.fg!60!black }
-\setbeamercolor  { section~in~sidebar }
-    {
-        use = frametitle,
-        fg  = frametitle.fg,
-        bg  = frametitle.fg!20!frametitle.bg,
-    }
-\setbeamercolor  { section~in~sidebar~shaded }
-    {
-        use = { palette~sidebar~secondary, normal~text, sidebar },
-        fg  = palette~sidebar~secondary.fg!60!sidebar.bg,
-        bg  = sidebar.bg,
-    }
-\setbeamercolor  { subsection~in~sidebar } { parent = section~in~sidebar }
-\setbeamercolor  { subsection~in~sidebar~shaded }
-    {
-        use = { palette~sidebar~primary, normal~text, sidebar },
-        fg  = palette~sidebar~primary.fg!60!sidebar.bg,
-        bg  = sidebar.bg,
-    }
-%    \end{macrocode}
-%
-%</color>
+% \subsubsection{颜色工具}
 %
 % \changes{v1.0}{2026/02/06}{支持根据亮度差值选择对比度更高的颜色。}
-%
-%<*outer>
 %
 % 根据对比度选择颜色。
 %
@@ -696,23 +716,7 @@
 }
 %    \end{macrocode}
 %
-%</outer>
-%
-%<*theme>
-%
-% \subsection{主题总体结构}
-%
-%    \begin{macrocode}
-\usecolortheme { Nankai     }
-\useoutertheme { Nankai     }
-\useinnertheme { rectangles }
-%    \end{macrocode}
-%
-%</theme>
-%
-%<*outer>
-%
-% \subsection{页面背景样式}
+% \subsubsection{页面背景样式}
 %
 %    \begin{macrocode}
 \defbeamertemplate* { background } { @@ } {
@@ -726,7 +730,7 @@
 }
 %    \end{macrocode}
 %
-% \subsection{标题栏样式}
+% \subsubsection{标题栏样式}
 %
 % \changes{v1.0}{2026/02/05}{为未来预留根据标题栏高度动态调整标志到顶部边距的变量。该功能目前未启用。}
 % \changes{v1.0}{2026/02/05}{根据是否包含副标题动态调整标题栏高度。}
@@ -815,9 +819,7 @@
 }
 %    \end{macrocode}
 %
-% \subsection{侧边栏样式}
-%
-% \subsubsection{基础设置与工具函数}
+% \subsubsection{侧边栏样式}
 %
 % 在侧边栏中仅显示当前章节的子章节。
 %
@@ -852,8 +854,6 @@
 }
 %    \end{macrocode}
 % \end{macro}
-%
-% \subsubsection{侧边栏中导航项样式}
 %
 % 设置章节导航项样式。
 %
@@ -932,7 +932,7 @@
 }
 %    \end{macrocode}
 %
-% \subsection{底栏样式}
+% \subsubsection{底栏样式}
 %
 %    \begin{macrocode}
 \defbeamertemplate* { footline } { @@ } {
@@ -968,9 +968,41 @@
 \beamertemplatenavigationsymbolsempty
 %    \end{macrocode}
 %
-% \subsection{特殊页面}
+% \subsubsection{收尾工作}
 %
-% \subsection{幻灯片标题页}
+% 关闭展示模式。
+%
+%    \begin{macrocode}
+\mode < all >
+%    \end{macrocode}
+%
+% 恢复字体大小。
+%
+%    \begin{macrocode}
+\tl_use:N \l_@@_restoresize_tl
+%    \end{macrocode}
+%
+%</outer>
+%
+% \subsection{内部主题文件}
+%
+% \changes{v1.1}{2026/02/13}{添加内部主题文件。}
+%
+%<*inner>
+%
+% 打开展示模式。
+%
+%    \begin{macrocode}
+\mode < presentation >
+%    \end{macrocode}
+%
+% 继承内置主题样式。
+%
+%    \begin{macrocode}
+\useinnertheme { rectangles }
+%    \end{macrocode}
+%
+% \subsubsection{幻灯片标题页}
 %
 % \changes{v1.0}{2026/02/13}{添加自定义幻灯片标题页。}
 %
@@ -978,11 +1010,6 @@
 \defbeamertemplate* { title~page } { @@ } {
     \nointerlineskip
     \usebeamerfont { frametitle }
-    \setbeamerfont { title     } { size = \huge,  family = \kaishu }
-    \setbeamerfont { subtitle  } { size = \large, family = \kaishu }
-    \setbeamerfont { author    } { size = \large, family = \kaishu }
-    \setbeamerfont { institute } { size = \large, family = \kaishu }
-    \setbeamerfont { date      } { size = \large, family = \kaishu }
     \begin { tikzpicture } [
         remember~picture,
         overlay,
@@ -1046,7 +1073,7 @@
         };
 %    \end{macrocode}
 %
-% 右上角 Logo 区域。
+% 右上角标志区域。
 %
 %    \begin{macrocode}
         \node [
@@ -1159,8 +1186,6 @@
 %    \begin{macrocode}
 \defbeamertemplate* { section~page } { @@ } {
     \nointerlineskip
-    \setbeamerfont { section~name  } { size = \Huge, series = \bfseries }
-    \setbeamerfont { section~title } { size = \Huge, series = \bfseries }
     \begin { tikzpicture } [
         remember~picture,
         overlay,
@@ -1282,7 +1307,7 @@
         }
 %    \end{macrocode}
 %
-% 右上角的南开大学校徽。
+% 右上角的南开大学标志。
 %
 %    \begin{macrocode}
         \node [
@@ -1302,29 +1327,13 @@
 }
 %    \end{macrocode}
 %
-%</outer>
-%
-%<*shared>
-%
-% \subsection{收尾工作}
-%
 % 关闭展示模式。
 %
 %    \begin{macrocode}
-\mode<all>
+\mode < all >
 %    \end{macrocode}
 %
-%</shared>
-%
-%<*outer>
-%
-% 恢复字体大小。
-%
-%    \begin{macrocode}
-\tl_use:N \l_@@_restoresize_tl
-%    \end{macrocode}
-%
-%</outer>
+%</inner>
 %
 % \end{implementation}
 %
