@@ -18,11 +18,15 @@ beamertheme-nankai 是一款专为南开大学师生设计的 LaTeX Beamer 主�
 
 📦[Release](https://github.com/alumik/beamertheme-nankai/releases/latest) 中可下载最新版本的主题包文件、示例文件和使用说明：
 
-- `beamerthemeNankai.sty`：导出完毕的主题包主文件，可直接使用。
-- `beamercolorthemeNankai.sty`：导出完毕的颜色主题文件，可随主文件一同使用，也可单独使用，以搭配其他 Beamer 主题。
-- `beamerouterthemeNankai.sty`：导出完毕的外观主题文件，可随主文件一同使用，也可单独使用，以搭配其他 Beamer 主题。
-- `sample.pdf`：由 `sample.tex` 生成的示例幻灯片。
-- `beamerthemeNankai.pdf`：由 `beamerthemeNankai.dtx` 生成的 PDF 文件，包含详细的使用说明。
+| 文件名                       | 说明                                                             |
+|------------------------------|------------------------------------------------------------------|
+| `beamerthemeNankai.sty`      | 主题包主文件，可直接使用。                                       |
+| `beamercolorthemeNankai.sty` | 颜色主题文件。                                                   |
+| `beamerfontthemeNankai.sty`  | 字体主题文件。                                                   |
+| `beamerouterthemeNankai.sty` | 外部主题文件。                                                   |
+| `beamerinnerthemeNankai.sty` | 内部主题文件。                                                   |
+| `sample.pdf`                 | 由 `sample.tex` 生成的示例幻灯片。                               |
+| `beamerthemeNankai.pdf`      | 由 `beamerthemeNankai.dtx` 生成的 PDF 文件，包含详细的使用说明。 |
 
 如果发现了代码 BUG，格式错误等问题，请创建 🎯[Issue](https://github.com/alumik/beamertheme-nankai/issues)。
 
@@ -33,10 +37,10 @@ beamertheme-nankai 是一款专为南开大学师生设计的 LaTeX Beamer 主�
 ### 1.1 下载并安装 `beamertheme-nankai`
 
 1. 将本主题所有文件克隆/下载到本地。
-2. 获取 `beamerthemeNankai.sty`、`beamercolorthemeNankai.sty` 以及 `beamerouterthemeNankai.sty` 三个文件。
+2. 获取 `beamerthemeNankai.sty`、`beamercolorthemeNankai.sty`、`beamerfontthemeNankai.sty`、`beamerinnerthemeNankai.sty` 以及 `beamerouterthemeNankai.sty` 五个文件。
     以下两种方法可任选**其一**：
-    - 方法一：从 [Release](https://github.com/alumik/beamertheme-nankai/releases/latest) 中下载最新版本的上述三个文件，放入幻灯片文件夹中。
-    - 方法二：从 `beamerthemeNankai.dtx` 文件中提取上述三个文件。
+    - 方法一：从 [Release](https://github.com/alumik/beamertheme-nankai/releases/latest) 中下载最新版本的上述五个文件，放入幻灯片文件夹中。
+    - 方法二：从 `beamerthemeNankai.dtx` 文件中提取上述五个文件。
 
       ```
       l3build unpack
