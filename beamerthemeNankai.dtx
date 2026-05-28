@@ -24,8 +24,8 @@
 %<outer>    {beamerouterthemeNankai}
 %<color>    {beamercolorthemeNankai}
 %<font>     {beamerfontthemeNankai}
-%<shared>    {2026/02/13}
-%<shared>    {v1.1.0}
+%<shared>    {2026/05/28}
+%<shared>    {v1.1.1}
 %<shared>    {Beamer theme of Nankai University}
 %
 %<*driver>
@@ -93,7 +93,7 @@
 %
 % \title{\textbf{beamertheme-nankai：一个专为南开大学设计的 Beamer 主题}}
 % \author{钟震宇 \\ \texttt{zyzhong@mail.nankai.edu.cn}}
-% \date{2026/02/13\quad v1.1.0}
+% \date{2026/05/28\quad v1.1.1}
 % \maketitle
 %
 % \begin{abstract}
@@ -766,13 +766,14 @@
 % \changes{v1.0}{2026/02/05}{页面标题与正文左对齐。}
 % \changes{v1.0}{2026/02/06}{取消标志内边距，保持不同页面上的标志位置一致。}
 % \changes{v1.0}{2026/02/12}{不再设置标题栏内标志的缩放比例，改为设置其绝对高度。}
+% \changes{v1.1}{2026/05/28}{修改标题栏和脚栏的渐变角度，增加标题文字的对比度。}
 %
 %    \begin{macrocode}
     \begin { tikzpicture } [ remember~picture, overlay ]
         \shadedraw [
             top~color     = frametitle.fg!20!frametitle.bg,
             bottom~color  = frametitle.bg,
-            shading~angle = 45,
+            shading~angle = 315,
             draw          = frametitle.fg!20!frametitle.bg,
         ]
             ( current~page.north~west ) rectangle
@@ -934,6 +935,8 @@
 %
 % \subsubsection{底栏样式}
 %
+% \changes{v1.1}{2026/05/28}{修改标题栏和脚栏的渐变角度，增加标题文字的对比度。}
+%
 %    \begin{macrocode}
 \defbeamertemplate* { footline } { @@ } {
     { \usebeamercolor { frametitle } }
@@ -942,7 +945,7 @@
             top~color     = frametitle.fg!20!frametitle.bg,
             bottom~color  = frametitle.bg,
             draw          = frametitle.fg!20!frametitle.bg,
-            shading~angle = 135,
+            shading~angle = 225,
         ]
             ( current~page.south~west ) rectangle
                 ( [ yshift = \c_@@_footheight_dim ] current~page.south~east );
